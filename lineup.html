@@ -14,8 +14,9 @@ h1,h2,h3,.serif{font-family:'Noto Serif SC','Noto Serif JP',serif;}a{color:inher
 .eyebrow{font-size:0.72rem;letter-spacing:0.32em;color:var(--gold);font-weight:500;}
 header{position:sticky;top:0;z-index:100;background:rgba(250,247,242,0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair);}
 .nav-wrap{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:88px;}
-.brand{display:flex;align-items:baseline;gap:12px;}.brand .cn{font-size:1.3rem;font-weight:500;letter-spacing:0.15em;}.brand .en{font-size:0.6rem;letter-spacing:0.24em;color:var(--ink-soft);font-family:'Noto Sans SC',sans-serif;}
-nav.tabs{display:flex;gap:36px;}nav.tabs a{position:relative;font-size:0.83rem;letter-spacing:0.04em;color:var(--ink);padding-bottom:4px;white-space:nowrap;}
+.brand{display:flex;align-items:baseline;gap:12px;}.brand .cn{font-size:1.3rem;font-weight:500;letter-spacing:0.15em;}.brand .en{font-size:0.6rem;letter-spacing:0.24em;color:var(--ink-soft);}
+nav.tabs{display:flex;gap:36px;}
+nav.tabs a{position:relative;font-size:0.83rem;letter-spacing:0.04em;color:var(--ink);padding-bottom:4px;white-space:nowrap;}
 nav.tabs a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--lacquer);transition:width .25s ease;}
 nav.tabs a:hover::after{width:100%;}nav.tabs a.active{color:var(--lacquer);}
 .nav-cta{border:1px solid var(--ink);color:var(--ink);padding:11px 24px;font-size:0.8rem;letter-spacing:0.06em;transition:all .2s ease;white-space:nowrap;}
@@ -25,75 +26,43 @@ nav.tabs a:hover::after{width:100%;}nav.tabs a.active{color:var(--lacquer);}
 .page-hero .eyebrow{margin-bottom:20px;display:block;}
 .page-hero h1{font-size:clamp(1.8rem,3.2vw,2.5rem);font-weight:400;letter-spacing:0.03em;line-height:1.5;}
 .page-hero p.lead{margin-top:22px;color:var(--ink-soft);font-size:0.98rem;max-width:56ch;font-weight:300;}
-section{max-width:1200px;margin:0 auto;padding:100px 40px;}
-.btn-primary{background:var(--lacquer);color:#fff;padding:16px 34px;font-size:0.88rem;letter-spacing:0.1em;display:inline-block;transition:background .2s ease;}
-.btn-primary:hover{background:var(--lacquer-deep);}
-.btn-ghost{padding:16px 30px;border:1px solid var(--ink);font-size:0.88rem;letter-spacing:0.1em;display:inline-block;transition:all .2s ease;}
-.btn-ghost:hover{background:var(--ink);color:var(--paper);}
-.lineup-empty{border:1px dashed var(--hair);padding:80px 40px;text-align:center;}
-.lineup-empty strong{display:block;font-family:'Noto Serif SC','Noto Serif JP',serif;font-size:1.2rem;font-weight:400;margin-bottom:14px;}
-.lineup-empty p{color:var(--ink-soft);font-size:0.92rem;font-weight:300;max-width:50ch;margin:0 auto 30px;}
-
-/* ===== 作品カード ===== */
-.works-list{display:flex;flex-direction:column;gap:0;}
-.work-card{
-  display:grid;
-  grid-template-columns:200px 1fr auto;
-  gap:32px;
-  align-items:start;
-  border-top:1px solid var(--hair);
-  padding:40px 0;
-}
+section{max-width:1200px;margin:0 auto;padding:80px 40px;}
+.section-head{margin-bottom:48px;}
+.section-head .eyebrow{margin-bottom:12px;display:block;}
+.section-head h2{font-size:clamp(1.4rem,2vw,1.8rem);font-weight:400;letter-spacing:0.04em;}
+.rule{width:48px;height:1px;background:var(--gold);margin-top:20px;}
+.work-card{display:grid;grid-template-columns:200px 1fr auto;gap:32px;align-items:start;border-top:1px solid var(--hair);padding:40px 0;}
 .work-card:last-child{border-bottom:1px solid var(--hair);}
-.work-thumb{
-  width:200px;
-  aspect-ratio:3/4;
-  object-fit:cover;
-  background:var(--paper-deep);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
+.work-thumb{width:200px;aspect-ratio:3/4;background:var(--paper-deep);border:1px solid var(--hair);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink-soft);font-size:0.78rem;overflow:hidden;}
 .work-thumb img{width:100%;height:100%;object-fit:cover;}
-.work-thumb-placeholder{
-  width:200px;
-  aspect-ratio:3/4;
-  background:var(--paper-deep);
-  border:1px solid var(--hair);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  color:var(--ink-soft);
-  font-size:0.78rem;
-  letter-spacing:0.08em;
-}
-.work-thumb-placeholder::before{content:"";width:32px;height:32px;border:1px solid var(--hair);display:block;}
 .work-info .genre{font-size:0.7rem;letter-spacing:0.14em;color:var(--gold);margin-bottom:10px;}
-.work-info h3{font-size:1.2rem;font-weight:500;margin-bottom:8px;letter-spacing:0.03em;}
+.work-info h3{font-size:1.2rem;font-weight:500;margin-bottom:8px;}
 .work-info .sub{font-size:0.83rem;color:var(--ink-soft);margin-bottom:14px;}
 .work-info p{font-size:0.88rem;color:var(--ink-soft);font-weight:300;max-width:52ch;line-height:1.9;}
 .work-info .price{font-size:0.82rem;color:var(--ink-soft);margin-top:16px;}
 .work-info .price strong{color:var(--ink);font-size:1rem;font-weight:500;}
-.work-action{display:flex;flex-direction:column;align-items:flex-end;gap:12px;min-width:130px;}
-@media (max-width:800px){
-  .work-card{grid-template-columns:1fr;gap:20px;}
-  .work-thumb-placeholder,.work-thumb{width:100%;aspect-ratio:2/1;}
-  .work-action{align-items:flex-start;}
-}
-
-/* ===== 新着通知 ===== */
-.subscribe-box{margin-top:64px;padding:44px 0 0;border-top:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;}
-.subscribe-box .txt h3{font-size:1.05rem;font-weight:500;margin-bottom:8px;letter-spacing:0.03em;}
-.subscribe-box .txt p{font-size:0.86rem;color:var(--ink-soft);font-weight:300;}
-.subscribe-form{display:flex;gap:0;flex-wrap:wrap;border-bottom:1px solid var(--ink);padding-bottom:2px;}
-.subscribe-form input{padding:12px 6px;border:none;background:transparent;font-size:0.9rem;min-width:240px;font-family:inherit;color:var(--ink);}
+.work-action{min-width:130px;}
+.btn-primary{background:var(--lacquer);color:#fff;padding:14px 28px;font-size:0.86rem;letter-spacing:0.08em;display:inline-block;transition:background .2s ease;white-space:nowrap;}
+.btn-primary:hover{background:var(--lacquer-deep);}
+@media (max-width:800px){.work-card{grid-template-columns:1fr;}.work-thumb{width:100%;aspect-ratio:2/1;}.work-action{margin-top:8px;}}
+.candidate-section{background:var(--paper-deep);border-top:1px solid var(--hair);}
+.candidate-card{display:grid;grid-template-columns:160px 1fr;gap:24px;align-items:start;border-top:1px solid var(--hair);padding:32px 0;}
+.candidate-card:last-child{border-bottom:1px solid var(--hair);}
+.candidate-thumb{width:160px;aspect-ratio:3/4;background:var(--paper);border:1px solid var(--hair);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink-soft);font-size:0.75rem;overflow:hidden;}
+.candidate-thumb img{width:100%;height:100%;object-fit:cover;}
+.candidate-info .status{font-size:0.68rem;letter-spacing:0.18em;color:var(--gold);margin-bottom:8px;}
+.candidate-info h3{font-size:1.05rem;font-weight:500;margin-bottom:6px;}
+.candidate-info .sub{font-size:0.8rem;color:var(--ink-soft);margin-bottom:10px;}
+.candidate-info p{font-size:0.86rem;color:var(--ink-soft);font-weight:300;max-width:52ch;line-height:1.85;}
+@media (max-width:800px){.candidate-card{grid-template-columns:1fr;}.candidate-thumb{width:100%;aspect-ratio:2/1;}}
+.subscribe-box{margin-top:48px;padding:36px 0 0;border-top:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.subscribe-box .txt h3{font-size:1rem;font-weight:500;margin-bottom:6px;}
+.subscribe-box .txt p{font-size:0.84rem;color:var(--ink-soft);font-weight:300;}
+.subscribe-form{display:flex;border-bottom:1px solid var(--ink);padding-bottom:2px;}
+.subscribe-form input{padding:10px 6px;border:none;background:transparent;font-size:0.9rem;min-width:220px;font-family:inherit;color:var(--ink);}
 .subscribe-form input:focus{outline:none;}
 .subscribe-form input::placeholder{color:var(--ink-soft);}
-.subscribe-form button{padding:12px 8px;background:transparent;color:var(--lacquer);border:none;font-size:0.86rem;letter-spacing:0.06em;cursor:pointer;white-space:nowrap;}
-.subscribe-form button:hover{color:var(--lacquer-deep);}
+.subscribe-form button{padding:10px 8px;background:transparent;color:var(--lacquer);border:none;font-size:0.84rem;letter-spacing:0.06em;cursor:pointer;white-space:nowrap;}
 footer{text-align:center;padding:40px 20px;font-size:0.76rem;color:rgba(250,247,242,0.5);background:var(--ink);border-top:1px solid rgba(250,247,242,0.1);font-weight:300;letter-spacing:0.04em;}
 footer a{color:var(--gold);}
 </style>
@@ -109,9 +78,8 @@ footer a{color:var(--gold);}
     <nav class="tabs">
       <a href="about.html">私たちについて</a>
       <a href="lineup.html" class="active">作品ラインナップ</a>
-      <a href="candidates.html">候補シナリオ</a>
       <a href="japan-to-china.html">日本発 中国へ</a>
-      <a href="contact.html">お問い合わせ</a>
+      <a href="contact.html">シナリオ購入</a>
     </nav>
     <a href="ticket.html" class="nav-cta">チケット予約</a>
   </div>
@@ -121,69 +89,58 @@ footer a{color:var(--gold);}
 <div class="page-hero">
   <span class="eyebrow">SCRIPT LINEUP · 中国 → 日本</span>
   <h1>作品ラインナップ</h1>
-  <p class="lead">ローカライズが完了し、日本の店舗様へご案内可能な作品の一覧です。導入をご検討の際は、各作品の「ご相談はこちら」よりお問い合わせください。</p>
+  <p class="lead">ローカライズが完了した正式作品と、現在選定中の候補シナリオをご紹介します。</p>
 </div>
 </div>
 
+<!-- ===== 正式作品 ===== -->
 <section>
-  <!-- ============================================================
-       【編集ガイド】
-       作品を追加する場合は、下の「work-card」ブロックをコピーして
-       追加してください。
-       
-       ・ work-thumb-placeholder → 画像がある場合は
-         <div class="work-thumb"><img src="images/作品画像.jpg" alt="作品名"></div>
-         に置き換えてください。
-       ・ genre: ジャンル ｜ 人数 ｜ 時間
-       ・ h3: 作品名（日本語）
-       ・ sub: 原題（中国語）
-       ・ p: 紹介文
-       ・ price: 価格（不要なら削除）
-       ============================================================ -->
-
-  <div class="works-list" id="works-list">
-
-    <!-- ▼▼▼ 作品1 ▼▼▼ -->
-    <div class="work-card">
-      <div class="work-thumb-placeholder">
-        <!-- 画像があれば↓に差し替え -->
-        <!-- <img src="images/work-xxx.jpg" alt="作品名"> -->
-        画像
-      </div>
-      <div class="work-info">
-        <div class="genre">推理 ｜ 6人用 ｜ 4時間</div>
-        <h3>作品名がここに入ります</h3>
-        <div class="sub">原題（中国語）</div>
-        <p>作品の簡単な紹介文がここに入ります。ジャンルの魅力や見どころを2〜3行で説明します。</p>
-        <div class="price">店舗導入価格　<strong>¥24,000〜</strong>（買切り）</div>
-      </div>
-      <div class="work-action">
-        <a href="contact.html" class="btn-primary">ご相談はこちら</a>
-      </div>
-    </div>
-    <!-- ▲▲▲ 作品1 ▲▲▲ -->
-
-    <!-- 作品が増えたらここにコピーして追加 -->
-
+  <div class="section-head">
+    <span class="eyebrow">OFFICIAL LINEUP</span>
+    <h2>正式作品</h2>
+    <div class="rule"></div>
   </div>
 
-  <!-- 新着通知 -->
-  <div class="subscribe-box">
-    <div class="txt">
-      <h3>新作入荷のお知らせ</h3>
-      <p>ローカライズ完了次第、メールにてお知らせします。</p>
+  <!-- 作品を追加する場合はこのブロックをコピーして追加 -->
+  <!-- 画像がある場合： <div class="work-thumb"><img src="images/ファイル名.jpg" alt="作品名"></div> -->
+
+  <!-- ▼ 作品1 -->
+  <div class="work-card">
+    <div class="work-thumb">
+      <!-- <img src="images/work-001.jpg" alt="作品名"> -->
+      画像
     </div>
-    <form class="subscribe-form" name="lineup-notify" method="POST" data-netlify="true">
-      <input type="hidden" name="form-name" value="lineup-notify">
-      <input type="email" name="email" placeholder="メールアドレス" required>
-      <button type="submit">通知を受け取る →</button>
-    </form>
+    <div class="work-info">
+      <div class="genre">推理 ｜ 6人用 ｜ 4時間</div>
+      <h3>作品名がここに入ります</h3>
+      <div class="sub">原題（中国語）</div>
+      <p>作品の簡単な紹介文がここに入ります。ジャンルの魅力や見どころを2〜3行で説明します。</p>
+      <div class="price">店舗導入価格　<strong>¥24,000〜</strong>（買切り）</div>
+    </div>
+    <div class="work-action">
+      <a href="contact.html" class="btn-primary">ご相談はこちら</a>
+    </div>
   </div>
+  <!-- ▲ 作品1 -->
+
 </section>
 
-<footer>
-  © 浮生三千 All rights reserved. ｜ mystery.threethousandlives.com
-</footer>
+<!-- ===== 候補シナリオ ===== -->
+<div class="candidate-section">
+<section>
+  <div class="section-head">
+    <span class="eyebrow">SCRIPT CANDIDATES</span>
+    <h2>候補シナリオ</h2>
+    <div class="rule"></div>
+  </div>
+  <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:40px;max-width:60ch;">現在ローカライズを進めている作品です。正式決定次第、上の作品ラインナップに移動します。</p>
 
-</body>
-</html>
+  <!-- 候補を追加する場合はこのブロックをコピーして追加 -->
+  <!-- statusは「審査中」「交渉中」「翻訳中」などに変更可能 -->
+
+  <!-- ▼ 候補1 -->
+  <div class="candidate-card">
+    <div class="candidate-thumb">
+      <!-- <img src="images/candidate-001.jpg" alt="作品名"> -->
+      画像
+    </div>
