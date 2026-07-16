@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>浮生三千 管理画面</title>
+<style>
+:root{
+  --ink:#1a1a1a;
+  --ink-soft:#8a8378;
+  --paper:#faf7f2;
+  --card:#ffffff;
+  --lacquer:#9b2226;
+  --gold:#c19a49;
+  --hair:#e4ddd0;
+  --paper-deep:#f1ebdc;
+  --green:#2d6a4f;
+  --green-light:#e8f5e9;
+  --red-light:#fdecea;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--paper);color:var(--ink);font-family:'Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.6;}
+
+/* ===== HEADER ===== */
+.admin-header{background:var(--ink);color:#fff;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;}
+.admin-header .logo{font-size:1rem;letter-spacing:0.12em;font-weight:500;}
+.admin-header .logo span{color:var(--gold);margin-right:8px;}
+.admin-header .user{font-size:0.78rem;color:rgba(255,255,255,0.5);}
+
+/* ===== LAYOUT ===== */
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 56px);}
+
+/* ===== SIDEBAR ===== */
+.sidebar{background:var(--card);border-right:1px solid var(--hair);padding:24px 0;}
+.sidebar-section{margin-bottom:8px;}
+.sidebar-label{font-size:0.68rem;letter-spacing:0.16em;color:var(--ink-soft);padding:8px 20px 4px;font-weight:600;}
+.sidebar-item{display:block;padding:9px 20px;color:var(--ink);cursor:pointer;border-left:3px solid transparent;font-size:0.85rem;background:none;border-top:none;border-right:none;border-bottom:none;width:100%;text-align:left;}
+.sidebar-item:hover{background:var(--paper);color:var(--lacquer);}
+.sidebar-item.active{background:var(--paper-deep);border-left-color:var(--lacquer);color:var(--lacquer);font-weight:500;}
+
+/* ===== MAIN ===== */
+.main{padding:32px 40px;max-width:900px;}
+.page-title{font-size:1.3rem;font-weight:600;margin-bottom:6px;letter-spacing:0.02em;}
+.page-sub{font-size:0.84rem;color:var(--ink-soft);margin-bottom:28px;}
+
+/* ===== SETUP PANEL ===== */
+.setup-card{background:var(--card);border:1px solid var(--hair);padding:28px 32px;margin-bottom:28px;border-radius:2px;}
+.setup-card h3{font-size:0.95rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.setup-card h3 .badge{font-size:0.68rem;background:var(--lacquer);color:#fff;padding:2px 8px;border-radius:10px;font-weight:500;}
+.setup-card h3 .badge.ok{background:var(--green);}
+.field-row{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;margin-bottom:12px;}
+.field-row label{font-size:0.8rem;color:var(--ink-soft);font-weight:500;}
+.field-row input{border:1px solid var(--hair);padding:8px 12px;font-size:0.85rem;width:100%;font-family:inherit;background:var(--paper);border-radius:2px;}
+.field-row input:focus{outline:2px solid var(--gold);border-color:var(--gold);}
+.btn{padding:9px 20px;font-size:0.82rem;letter-spacing:0.06em;cursor:pointer;border:none;border-radius:2px;font-family:inherit;font-weight:500;}
+.btn-primary{background:var(--lacquer);color:#fff;}
+.btn-primary:hover{background:#7a1a1d;}
+.btn-secondary{background:var(--hair);color:var(--ink);}
+.btn-secondary:hover{background:#d5cdc0;}
+.btn-success{background:var(--green);color:#fff;}
+.btn-danger{background:#c62828;color:#fff;}
+.btn-sm{padding:6px 14px;font-size:0.78rem;}
+
+/* ===== TABS ===== */
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ===== WORK CARDS ===== */
+.work-list{display:flex;flex-direction:column;gap:16px;margin-bottom:24px;}
+.work-item{background:var(--card);border:1px solid var(--hair);border-radius:2px;overflow:hidden;}
+.work-item-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--hair);background:var(--paper-deep);}
+.work-item-header .title{font-weight:600;font-size:0.9rem;}
+.work-item-header .actions{display:flex;gap:8px;}
+.work-item-body{padding:20px;display:grid;grid-template-columns:140px 1fr;gap:20px;}
+.work-thumb-preview{width:140px;height:186px;border:2px dashed var(--hair);display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:var(--ink-soft);cursor:pointer;background:var(--paper);position:relative;overflow:hidden;flex-shrink:0;}
+.work-thumb-preview img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;}
+.work-thumb-preview .upload-label{position:relative;z-index:1;text-align:center;pointer-events:none;}
+.work-thumb-preview input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.work-fields{display:flex;flex-direction:column;gap:10px;}
+.work-field label{display:block;font-size:0.72rem;color:var(--ink-soft);margin-bottom:3px;font-weight:500;letter-spacing:0.06em;}
+.work-field input,.work-field textarea,.work-field select{width:100%;border:1px solid var(--hair);padding:7px 10px;font-size:0.84rem;font-family:inherit;background:var(--paper);border-radius:2px;}
+.work-field input:focus,.work-field textarea:focus{outline:2px solid var(--gold);border-color:var(--gold);}
+.work-field textarea{resize:vertical;min-height:70px;}
+.field-row-inline{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+
+/* ===== STATUS BADGE ===== */
+.status-badge{display:inline-block;font-size:0.68rem;padding:2px 10px;border-radius:10px;font-weight:600;letter-spacing:0.06em;}
+.status-official{background:#e8f5e9;color:var(--green);}
+.status-candidate{background:#fff8e1;color:#f57f17;}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--ink);color:#fff;padding:12px 20px;border-radius:4px;font-size:0.84rem;opacity:0;transform:translateY(8px);transition:all .25s ease;pointer-events:none;z-index:999;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.success{background:var(--green);}
+.toast.error{background:#c62828;}
+
+/* ===== ADD BUTTON ===== */
+.add-btn{border:2px dashed var(--hair);background:transparent;width:100%;padding:16px;font-size:0.84rem;color:var(--ink-soft);cursor:pointer;border-radius:2px;font-family:inherit;}
+.add-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ===== SAVE BAR ===== */
+.save-bar{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--hair);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;margin:0 -40px;margin-top:32px;}
+.save-bar .hint{font-size:0.8rem;color:var(--ink-soft);}
+
+/* ===== LOADING ===== */
+.loading{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.divider{height:1px;background:var(--hair);margin:24px 0;}
+.info-box{background:var(--paper-deep);border-left:3px solid var(--gold);padding:12px 16px;font-size:0.82rem;color:var(--ink-soft);margin-bottom:20px;border-radius:0 2px 2px 0;}
+</style>
+</head>
+<body>
+
+<div class="admin-header">
+  <div class="logo"><span>浮生三千</span>管理画面</div>
+  <div class="user" id="header-user">未接続</div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">設定</div>
+      <button class="sidebar-item active" onclick="showPanel('setup')">🔑 GitHub接続</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">コンテンツ</div>
+      <button class="sidebar-item" onclick="showPanel('works')">📖 シナリオ一覧</button>
+      <button class="sidebar-item" onclick="showPanel('candidates')">🔍 候補シナリオ</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- ===== SETUP ===== -->
+    <div id="panel-setup" class="panel active">
+      <div class="page-title">GitHub接続設定</div>
+      <div class="page-sub">GitHubのPersonal Access Tokenを入力してください。このページにのみ保存されます。</div>
+
+      <div class="setup-card">
+        <h3>接続情報 <span class="badge" id="connect-badge">未接続</span></h3>
+        <div class="field-row">
+          <label>GitHub Token</label>
+          <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxx" oninput="saveConfig()">
+        </div>
+        <div class="field-row">
+          <label>ユーザー名</label>
+          <input type="text" id="gh-user" placeholder="PhoebeSyrene" oninput="saveConfig()">
+        </div>
+        <div class="field-row">
+          <label>リポジトリ名</label>
+          <input type="text" id="gh-repo" placeholder="mystery-site" oninput="saveConfig()">
+        </div>
+        <div style="margin-top:16px;display:flex;gap:10px;">
+          <button class="btn btn-primary" onclick="testConnection()">接続テスト</button>
+          <button class="btn btn-secondary" onclick="clearConfig()">クリア</button>
+        </div>
+      </div>
+
+      <div class="info-box">
+        💡 Token、ユーザー名、リポジトリ名はこのブラウザにのみ保存されます。他の人には見えません。<br>
+        Token权限は <strong>repo</strong> のみ必要です。
+      </div>
+    </div>
+
+    <!-- ===== WORKS ===== -->
+    <div id="panel-works" class="panel">
+      <div class="page-title">シナリオ一覧</div>
+      <div class="page-sub">正式公演中のシナリオを管理します。変更後は「保存して公開」を押してください。</div>
+
+      <div class="work-list" id="works-list"></div>
+      <button class="add-btn" onclick="addWork()">＋ シナリオを追加</button>
+
+      <div class="save-bar">
+        <span class="hint">変更はGitHubに直接反映されます</span>
+        <button class="btn btn-primary" onclick="saveWorks()" id="save-works-btn">保存して公開</button>
+      </div>
+    </div>
+
+    <!-- ===== CANDIDATES ===== -->
+    <div id="panel-candidates" class="panel">
+      <div class="page-title">候補シナリオ</div>
+      <div class="page-sub">現在審査・翻訳中のシナリオを管理します。</div>
+
+      <div class="work-list" id="candidates-list"></div>
+      <button class="add-btn" onclick="addCandidate()">＋ 候補を追加</button>
+
+      <div class="save-bar">
+        <span class="hint">変更はGitHubに直接反映されます</span>
+        <button class="btn btn-primary" onclick="saveCandidates()" id="save-candidates-btn">保存して公開</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== STATE =====
+let works = [];
+let candidates = [];
+let ghConfig = {};
+
+// ===== INIT =====
+window.onload = () => {
+  loadConfig();
+  loadData();
+};
+
+// ===== CONFIG =====
+function saveConfig() {
+  ghConfig = {
+    token: document.getElementById('gh-token').value,
+    user: document.getElementById('gh-user').value,
+    repo: document.getElementById('gh-repo').value,
+  };
+  localStorage.setItem('gh_config', JSON.stringify(ghConfig));
+  document.getElementById('header-user').textContent = ghConfig.user || '未接続';
+}
+
+function loadConfig() {
+  const saved = localStorage.getItem('gh_config');
+  if (saved) {
+    ghConfig = JSON.parse(saved);
+    document.getElementById('gh-token').value = ghConfig.token || '';
+    document.getElementById('gh-user').value = ghConfig.user || '';
+    document.getElementById('gh-repo').value = ghConfig.repo || '';
+    document.getElementById('header-user').textContent = ghConfig.user || '未接続';
+  }
+}
+
+function clearConfig() {
+  localStorage.removeItem('gh_config');
+  document.getElementById('gh-token').value = '';
+  document.getElementById('gh-user').value = '';
+  document.getElementById('gh-repo').value = '';
+  ghConfig = {};
+  document.getElementById('header-user').textContent = '未接続';
+  setBadge('未接続', false);
+}
+
+async function testConnection() {
+  if (!ghConfig.token || !ghConfig.user || !ghConfig.repo) {
+    showToast('Token、ユーザー名、リポジトリ名を入力してください', 'error');
+    return;
+  }
+  try {
+    const res = await fetch(`https://api.github.com/repos/${ghConfig.user}/${ghConfig.repo}`, {
+      headers: { Authorization: `token ${ghConfig.token}` }
+    });
+    if (res.ok) {
+      setBadge('接続済み ✓', true);
+      showToast('接続成功！', 'success');
+    } else {
+      setBadge('エラー', false);
+      showToast('接続失敗。Token・ユーザー名・リポジトリ名を確認してください', 'error');
+    }
+  } catch(e) {
+    showToast('ネットワークエラー', 'error');
+  }
+}
+
+function setBadge(text, ok) {
+  const b = document.getElementById('connect-badge');
+  b.textContent = text;
+  b.className = 'badge' + (ok ? ' ok' : '');
+}
+
+// ===== DATA =====
+function loadData() {
+  const savedWorks = localStorage.getItem('works_data');
+  const savedCandidates = localStorage.getItem('candidates_data');
+  works = savedWorks ? JSON.parse(savedWorks) : [defaultWork()];
+  candidates = savedCandidates ? JSON.parse(savedCandidates) : [defaultCandidate()];
+  renderWorks();
+  renderCandidates();
+}
+
+function defaultWork() {
+  return { id: Date.now(), title: '', subtitle: '', genre: '', players: '', duration: '', description: '', price: '', image: '', imageName: '' };
+}
+
+function defaultCandidate() {
+  return { id: Date.now(), title: '', subtitle: '', status: '審査中', description: '', image: '', imageName: '' };
+}
+
+// ===== WORKS =====
+function addWork() {
+  works.push(defaultWork());
+  renderWorks();
+}
+
+function removeWork(id) {
+  if (!confirm('このシナリオを削除しますか？')) return;
+  works = works.filter(w => w.id !== id);
+  renderWorks();
+}
+
+function renderWorks() {
+  const list = document.getElementById('works-list');
+  list.innerHTML = works.map((w, i) => `
+    <div class="work-item" id="work-${w.id}">
+      <div class="work-item-header">
+        <span class="title">${w.title || '（無題）'} <span class="status-badge status-official">公演中</span></span>
+        <div class="actions">
+          <button class="btn btn-danger btn-sm" onclick="removeWork(${w.id})">削除</button>
+        </div>
+      </div>
+      <div class="work-item-body">
+        <div class="work-thumb-preview" onclick="triggerUpload('work-img-${w.id}')">
+          ${w.image ? `<img src="${w.image}" alt="">` : ''}
+          <div class="upload-label">📷<br>${w.image ? '画像を変更' : '画像をアップロード'}</div>
+          <input type="file" id="work-img-${w.id}" accept="image/*" onchange="handleImageUpload(event, ${w.id}, 'work')">
+        </div>
+        <div class="work-fields">
+          <div class="work-field">
+            <label>作品名（日本語）</label>
+            <input type="text" value="${w.title}" oninput="updateWork(${w.id}, 'title', this.value); this.closest('.work-item').querySelector('.title').childNodes[0].textContent = this.value || '（無題）'">
+          </div>
+          <div class="work-field">
+            <label>原題（中国語）</label>
+            <input type="text" value="${w.subtitle}" oninput="updateWork(${w.id}, 'subtitle', this.value)">
+          </div>
+          <div class="field-row-inline">
+            <div class="work-field">
+              <label>ジャンル</label>
+              <input type="text" value="${w.genre}" placeholder="推理" oninput="updateWork(${w.id}, 'genre', this.value)">
+            </div>
+            <div class="work-field">
+              <label>人数</label>
+              <input type="text" value="${w.players}" placeholder="6人用" oninput="updateWork(${w.id}, 'players', this.value)">
+            </div>
+            <div class="work-field">
+              <label>時間</label>
+              <input type="text" value="${w.duration}" placeholder="4時間" oninput="updateWork(${w.id}, 'duration', this.value)">
+            </div>
+          </div>
+          <div class="work-field">
+            <label>紹介文</label>
+            <textarea oninput="updateWork(${w.id}, 'description', this.value)">${w.description}</textarea>
+          </div>
+          <div class="work-field">
+            <label>公演費用</label>
+            <input type="text" value="${w.price}" placeholder="例：¥3,500/人" oninput="updateWork(${w.id}, 'price', this.value)">
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateWork(id, field, value) {
+  const w = works.find(w => w.id === id);
+  if (w) w[field] = value;
+  localStorage.setItem('works_data', JSON.stringify(works));
+}
+
+// ===== CANDIDATES =====
+function addCandidate() {
+  candidates.push(defaultCandidate());
+  renderCandidates();
+}
+
+function removeCandidate(id) {
+  if (!confirm('この候補を削除しますか？')) return;
+  candidates = candidates.filter(c => c.id !== id);
+  renderCandidates();
+}
+
+function renderCandidates() {
+  const list = document.getElementById('candidates-list');
+  list.innerHTML = candidates.map((c, i) => `
+    <div class="work-item" id="candidate-${c.id}">
+      <div class="work-item-header">
+        <span class="title">${c.title || '（無題）'} <span class="status-badge status-candidate">${c.status}</span></span>
+        <div class="actions">
+          <button class="btn btn-danger btn-sm" onclick="removeCandidate(${c.id})">削除</button>
+        </div>
+      </div>
+      <div class="work-item-body">
+        <div class="work-thumb-preview" onclick="triggerUpload('cand-img-${c.id}')">
+          ${c.image ? `<img src="${c.image}" alt="">` : ''}
+          <div class="upload-label">📷<br>${c.image ? '画像を変更' : '画像をアップロード'}</div>
+          <input type="file" id="cand-img-${c.id}" accept="image/*" onchange="handleImageUpload(event, ${c.id}, 'candidate')">
+        </div>
+        <div class="work-fields">
+          <div class="work-field">
+            <label>作品名（日本語）</label>
+            <input type="text" value="${c.title}" oninput="updateCandidate(${c.id}, 'title', this.value); this.closest('.work-item').querySelector('.title').childNodes[0].textContent = this.value || '（無題）'">
+          </div>
+          <div class="work-field">
+            <label>原題（中国語）</label>
+            <input type="text" value="${c.subtitle}" oninput="updateCandidate(${c.id}, 'subtitle', this.value)">
+          </div>
+          <div class="work-field">
+            <label>ステータス</label>
+            <select onchange="updateCandidate(${c.id}, 'status', this.value); this.closest('.work-item').querySelector('.status-badge').textContent = this.value">
+              <option ${c.status==='審査中'?'selected':''}>審査中</option>
+              <option ${c.status==='交渉中'?'selected':''}>交渉中</option>
+              <option ${c.status==='翻訳中'?'selected':''}>翻訳中</option>
+              <option ${c.status==='準備中'?'selected':''}>準備中</option>
+            </select>
+          </div>
+          <div class="work-field">
+            <label>紹介文</label>
+            <textarea oninput="updateCandidate(${c.id}, 'description', this.value)">${c.description}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateCandidate(id, field, value) {
+  const c = candidates.find(c => c.id === id);
+  if (c) c[field] = value;
+  localStorage.setItem('candidates_data', JSON.stringify(candidates));
+}
+
+// ===== IMAGE UPLOAD =====
+function triggerUpload(inputId) {
+  document.getElementById(inputId).click();
+}
+
+async function handleImageUpload(event, id, type) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const dataUrl = e.target.result;
+    const base64 = dataUrl.split(',')[1];
+    const fileName = `images/${type === 'work' ? 'work' : 'candidate'}-${id}-${file.name}`;
+
+    // Preview
+    const preview = event.target.closest('.work-thumb-preview');
+    let img = preview.querySelector('img');
+    if (!img) { img = document.createElement('img'); preview.appendChild(img); }
+    img.src = dataUrl;
+    preview.querySelector('.upload-label').textContent = '画像を変更';
+
+    if (type === 'work') {
+      updateWork(id, 'image', dataUrl);
+      updateWork(id, 'imageName', fileName);
+    } else {
+      updateCandidate(id, 'image', dataUrl);
+      updateCandidate(id, 'imageName', fileName);
+    }
+
+    // Upload to GitHub
+    if (ghConfig.token) {
+      try {
+        await githubPut(fileName, base64, `Add image ${file.name}`);
+        showToast('画像をアップロードしました！', 'success');
+      } catch(e) {
+        showToast('画像アップロード失敗。接続設定を確認してください', 'error');
+      }
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// ===== GITHUB API =====
+async function githubPut(path, content, message) {
+  const url = `https://api.github.com/repos/${ghConfig.user}/${ghConfig.repo}/contents/${path}`;
+  
+  // Get existing SHA
+  let sha;
+  try {
+    const existing = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
+    if (existing.ok) {
+      const data = await existing.json();
+      sha = data.sha;
+    }
+  } catch(e) {}
+
+  const body = { message, content };
+  if (sha) body.sha = sha;
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      Authorization: `token ${ghConfig.token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) throw new Error('GitHub API error');
+  return res.json();
+}
+
+// ===== GENERATE HTML =====
+function generateLineupHTML() {
+  const worksHTML = works.map(w => {
+    const imageName = w.imageName || '';
+    const imgTag = imageName
+      ? `<img src="${imageName.replace('images/', 'images/')}" alt="${w.title}">`
+      : '画像';
+    const genreStr = [w.genre, w.players, w.duration].filter(Boolean).join(' ｜ ');
+    const priceHTML = w.price ? `<div class="price">${w.price}</div>` : '';
+
+    return `
+  <!-- ▼ ${w.title || '作品'} -->
+  <div class="work-card">
+    <div class="work-thumb">
+      ${imageName ? `<img src="${imageName}" alt="${w.title}">` : '画像'}
+    </div>
+    <div class="work-info">
+      ${genreStr ? `<div class="genre">${genreStr}</div>` : ''}
+      <h3>${w.title}</h3>
+      ${w.subtitle ? `<div class="sub">${w.subtitle}</div>` : ''}
+      ${w.description ? `<p>${w.description}</p>` : ''}
+      ${priceHTML}
+    </div>
+    <div class="work-action">
+      <a href="ticket.html" class="btn-primary">公演予約はこちら</a>
+    </div>
+  </div>`;
+  }).join('\n');
+
+  const candidatesHTML = candidates.map(c => {
+    return `
+  <!-- ▼ ${c.title || '候補'} -->
+  <div class="candidate-card">
+    <div class="candidate-thumb">
+      ${c.imageName ? `<img src="${c.imageName}" alt="${c.title}">` : '画像'}
+    </div>
+    <div class="candidate-info">
+      <div class="status">${c.status}</div>
+      <h3>${c.title}</h3>
+      ${c.subtitle ? `<div class="sub">${c.subtitle}</div>` : ''}
+      ${c.description ? `<p>${c.description}</p>` : ''}
+    </div>
+  </div>`;
+  }).join('\n');
+
+  return `<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作品ラインナップ ｜ 浮生三千</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@300;400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1a1a;--ink-soft:#8a8378;--paper:#faf7f2;--card:#ffffff;--lacquer:#9b2226;--lacquer-deep:#7a1a1d;--jade:#4a5d53;--gold:#c19a49;--hair:#e4ddd0;--paper-deep:#f1ebdc;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Noto Sans SC','Noto Sans JP',sans-serif;line-height:1.85;-webkit-font-smoothing:antialiased;font-weight:300;}
+h1,h2,h3,.serif{font-family:'Noto Serif SC','Noto Serif JP',serif;}a{color:inherit;text-decoration:none;}
+.eyebrow{font-size:0.72rem;letter-spacing:0.32em;color:var(--gold);font-weight:500;}
+header{position:sticky;top:0;z-index:100;background:rgba(250,247,242,0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair);}
+.nav-wrap{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:88px;}
+.brand{display:flex;align-items:baseline;gap:12px;}.brand .cn{font-size:1.3rem;font-weight:500;letter-spacing:0.15em;}.brand .en{font-size:0.6rem;letter-spacing:0.24em;color:var(--ink-soft);}
+nav.tabs{display:flex;gap:36px;}
+nav.tabs a{position:relative;font-size:0.83rem;letter-spacing:0.04em;color:var(--ink);padding-bottom:4px;white-space:nowrap;}
+nav.tabs a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--lacquer);transition:width .25s ease;}
+nav.tabs a:hover::after{width:100%;}nav.tabs a.active{color:var(--lacquer);}
+.nav-cta{border:1px solid var(--ink);color:var(--ink);padding:11px 24px;font-size:0.8rem;letter-spacing:0.06em;transition:all .2s ease;white-space:nowrap;}
+.nav-cta:hover{background:var(--ink);color:var(--paper);}
+@media (max-width:1000px){nav.tabs{display:none;}.nav-wrap{padding:0 24px;}}
+.page-hero{max-width:1200px;margin:0 auto;padding:80px 40px 60px;border-bottom:1px solid var(--hair);}
+.page-hero .eyebrow{margin-bottom:20px;display:block;}
+.page-hero h1{font-size:clamp(1.8rem,3.2vw,2.5rem);font-weight:400;letter-spacing:0.03em;line-height:1.5;}
+.page-hero p.lead{margin-top:22px;color:var(--ink-soft);font-size:0.98rem;max-width:56ch;font-weight:300;}
+section{max-width:1200px;margin:0 auto;padding:80px 40px;}
+.section-head{margin-bottom:48px;}
+.section-head .eyebrow{margin-bottom:12px;display:block;}
+.section-head h2{font-size:clamp(1.4rem,2vw,1.8rem);font-weight:400;letter-spacing:0.04em;}
+.rule{width:48px;height:1px;background:var(--gold);margin-top:20px;}
+.work-card{display:grid;grid-template-columns:200px 1fr auto;gap:32px;align-items:start;border-top:1px solid var(--hair);padding:40px 0;}
+.work-card:last-child{border-bottom:1px solid var(--hair);}
+.work-thumb{width:200px;aspect-ratio:3/4;background:var(--paper-deep);border:1px solid var(--hair);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink-soft);font-size:0.78rem;overflow:hidden;}
+.work-thumb img{width:100%;height:100%;object-fit:cover;}
+.work-info .genre{font-size:0.7rem;letter-spacing:0.14em;color:var(--gold);margin-bottom:10px;}
+.work-info h3{font-size:1.2rem;font-weight:500;margin-bottom:8px;}
+.work-info .sub{font-size:0.83rem;color:var(--ink-soft);margin-bottom:14px;}
+.work-info p{font-size:0.88rem;color:var(--ink-soft);font-weight:300;max-width:52ch;line-height:1.9;}
+.work-info .price{font-size:0.9rem;color:var(--ink);margin-top:16px;font-weight:500;}
+.work-action{min-width:130px;}
+.btn-primary{background:var(--lacquer);color:#fff;padding:14px 28px;font-size:0.86rem;letter-spacing:0.08em;display:inline-block;transition:background .2s ease;white-space:nowrap;}
+.btn-primary:hover{background:var(--lacquer-deep);}
+@media (max-width:800px){.work-card{grid-template-columns:1fr;}.work-thumb{width:100%;aspect-ratio:2/1;}.work-action{margin-top:8px;}}
+.candidate-section{background:var(--paper-deep);border-top:1px solid var(--hair);}
+.candidate-card{display:grid;grid-template-columns:160px 1fr;gap:24px;align-items:start;border-top:1px solid var(--hair);padding:32px 0;}
+.candidate-card:last-child{border-bottom:1px solid var(--hair);}
+.candidate-thumb{width:160px;aspect-ratio:3/4;background:var(--paper);border:1px solid var(--hair);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink-soft);font-size:0.75rem;overflow:hidden;}
+.candidate-thumb img{width:100%;height:100%;object-fit:cover;}
+.candidate-info .status{font-size:0.68rem;letter-spacing:0.18em;color:var(--gold);margin-bottom:8px;}
+.candidate-info h3{font-size:1.05rem;font-weight:500;margin-bottom:6px;}
+.candidate-info .sub{font-size:0.8rem;color:var(--ink-soft);margin-bottom:10px;}
+.candidate-info p{font-size:0.86rem;color:var(--ink-soft);font-weight:300;max-width:52ch;line-height:1.85;}
+@media (max-width:800px){.candidate-card{grid-template-columns:1fr;}.candidate-thumb{width:100%;aspect-ratio:2/1;}}
+.subscribe-box{margin-top:48px;padding:36px 0 0;border-top:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.subscribe-box .txt h3{font-size:1rem;font-weight:500;margin-bottom:6px;}
+.subscribe-box .txt p{font-size:0.84rem;color:var(--ink-soft);font-weight:300;}
+.subscribe-form{display:flex;border-bottom:1px solid var(--ink);padding-bottom:2px;}
+.subscribe-form input{padding:10px 6px;border:none;background:transparent;font-size:0.9rem;min-width:220px;font-family:inherit;color:var(--ink);}
+.subscribe-form input:focus{outline:none;}
+.subscribe-form input::placeholder{color:var(--ink-soft);}
+.subscribe-form button{padding:10px 8px;background:transparent;color:var(--lacquer);border:none;font-size:0.84rem;letter-spacing:0.06em;cursor:pointer;white-space:nowrap;}
+footer{text-align:center;padding:40px 20px;font-size:0.76rem;color:rgba(250,247,242,0.5);background:var(--ink);border-top:1px solid rgba(250,247,242,0.1);font-weight:300;letter-spacing:0.04em;}
+footer a{color:var(--gold);}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav-wrap">
+    <a href="index.html" class="brand">
+      <span class="cn serif">浮生三千</span>
+      <span class="en">FUSHENG SANQIAN — MYSTERY BRIDGE</span>
+    </a>
+    <nav class="tabs">
+      <a href="about.html">私たちについて</a>
+      <a href="lineup.html" class="active">作品ラインナップ</a>
+      <a href="japan-to-china.html">日本発 中国へ</a>
+      <a href="contact.html">シナリオ購入</a>
+    </nav>
+    <a href="ticket.html" class="nav-cta">公演予約</a>
+  </div>
+</header>
+
+<div style="background:var(--paper-deep) url('images/hero-band-red.webp') right center/cover no-repeat;">
+<div class="page-hero">
+  <span class="eyebrow">SCRIPT LINEUP · 中国 → 日本</span>
+  <h1>作品ラインナップ</h1>
+  <p class="lead">ローカライズが完了したシナリオと、現在選定中の候補シナリオをご紹介します。</p>
+</div>
+</div>
+
+<section>
+  <div class="section-head">
+    <span class="eyebrow">SCENARIO LIST</span>
+    <h2>シナリオ一覧</h2>
+    <div class="rule"></div>
+  </div>
+${worksHTML}
+</section>
+
+<div class="candidate-section">
+<section>
+  <div class="section-head">
+    <span class="eyebrow">SCRIPT CANDIDATES</span>
+    <h2>候補シナリオ</h2>
+    <div class="rule"></div>
+  </div>
+  <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:40px;max-width:60ch;">現在ローカライズを進めている作品です。正式決定次第、上のシナリオ一覧に移動します。</p>
+${candidatesHTML}
+  <div class="subscribe-box">
+    <div class="txt">
+      <h3>新作入荷のお知らせ</h3>
+      <p>正式ラインナップ追加時にメールでお知らせします。</p>
+    </div>
+    <form class="subscribe-form" name="lineup-notify" method="POST" data-netlify="true">
+      <input type="hidden" name="form-name" value="lineup-notify">
+      <input type="email" name="email" placeholder="メールアドレス" required>
+      <button type="submit">通知を受け取る →</button>
+    </form>
+  </div>
+</section>
+</div>
+
+<footer>
+  © 浮生三千 All rights reserved. ｜ mystery.threethousandlives.com
+</footer>
+</body>
+</html>`;
+}
+
+// ===== SAVE TO GITHUB =====
+async function saveWorks() {
+  await saveToGitHub('save-works-btn');
+}
+
+async function saveCandidates() {
+  await saveToGitHub('save-candidates-btn');
+}
+
+async function saveToGitHub(btnId) {
+  if (!ghConfig.token || !ghConfig.user || !ghConfig.repo) {
+    showToast('まずGitHub接続設定を行ってください', 'error');
+    showPanel('setup');
+    return;
+  }
+
+  const btn = document.getElementById(btnId);
+  btn.innerHTML = '<span class="loading"></span>保存中...';
+  btn.disabled = true;
+
+  try {
+    const html = generateLineupHTML();
+    const content = btoa(unescape(encodeURIComponent(html)));
+    await githubPut('lineup.html', content, 'Update lineup from admin panel');
+    showToast('公開しました！', 'success');
+  } catch(e) {
+    showToast('保存失敗。接続設定を確認してください', 'error');
+  } finally {
+    btn.innerHTML = '保存して公開';
+    btn.disabled = false;
+  }
+}
+
+// ===== UI =====
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 2800);
+}
+</script>
+
+</body>
+</html>
