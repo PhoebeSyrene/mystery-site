@@ -6,6 +6,8 @@
 <title>シナリオ購入 ｜ 浮生三千</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@300;400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>emailjs.init('1q4usUCTLWyddqL1U');</script>
 <style>
 :root{--ink:#1a1a1a;--ink-soft:#8a8378;--paper:#faf7f2;--card:#ffffff;--lacquer:#9b2226;--lacquer-deep:#7a1a1d;--jade:#4a5d53;--gold:#c19a49;--hair:#e4ddd0;--paper-deep:#f1ebdc;}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
@@ -82,9 +84,7 @@ footer a{color:var(--gold);}
         <div class="val">東京都豊島区 大塚</div>
       </div>
     </div>
-    <form class="contact-form" name="store-contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="store-contact">
-      <p style="display:none;"><label>入力しないでください: <input name="bot-field"></label></p>
+    <form class="contact-form" id="store-form" onsubmit="sendEmail(event)">
       <div class="field">
         <label>お名前 / 店舗名</label>
         <input type="text" name="name" required>
@@ -105,6 +105,23 @@ footer a{color:var(--gold);}
 <footer>
   © 浮生三千 All rights reserved. ｜ mystery.threethousandlives.com
 </footer>
+
+<script>
+function sendEmail(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.textContent = '送信中...';
+  btn.disabled = true;
+  emailjs.sendForm('service_i81t7yf', 'template_k971rgm', '#store-form')
+    .then(() => {
+      btn.textContent = '送信完了！';
+      e.target.reset();
+    }, () => {
+      btn.textContent = '送信失敗。再度お試しください';
+      btn.disabled = false;
+    });
+}
+</script>
 
 </body>
 </html>
