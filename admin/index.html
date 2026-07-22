@@ -770,7 +770,7 @@ function generateLineupHTML() {
       const genreStr = [w.players, w.duration].filter(Boolean).join(' ｜ ');
       const priceHTML = w.price ? `<div class="price">${w.price}</div>` : '';
       const tagsHTML = (w.tags && w.tags.length > 0)
-        ? `<div class="candidate-tags">${w.tags.map(t => `<span class="candidate-tag">${t}</span>`).join('')}</div>`
+        ? `<div class="work-tags">${w.tags.map(t => `<span class="work-tag">${t}</span>`).join('')}</div>`
         : '';
       return `
   <div class="work-card">
