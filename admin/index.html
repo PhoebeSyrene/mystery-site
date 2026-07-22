@@ -435,7 +435,6 @@ function renderWorks() {
           <span class="drag-handle" title="ドラッグして並び替え">☰</span>
           <span class="title-text">${w.title || '（無題）'}</span>
           <span class="status-badge status-official">公演中</span>
-          <span class="header-tags">${tagsHTML}</span>
         </span>
         <div class="actions">
           <button class="btn btn-secondary btn-sm" onclick="demoteWork(${w.id})">候補に戻す</button>
@@ -583,7 +582,6 @@ function renderCandidates() {
           <span class="drag-handle" title="ドラッグして並び替え">☰</span>
           <span class="title-text">${c.title || '（無題）'}</span>
           <span class="status-badge ${c.hidden ? 'status-hidden' : 'status-candidate'}">${c.hidden ? '非公開' : c.status}</span>
-          <span class="header-tags">${(c.tags||[]).map(t => `<span class="header-tag-pill">${t}</span>`).join('')}</span>
         </span>
         <div class="actions">
           <button class="btn btn-ghost btn-sm vis-btn${c.hidden ? ' is-hidden' : ''}" onclick="toggleCandidateVisibility(${c.id})">${c.hidden ? '公開' : '非公開'}</button>
